@@ -1,6 +1,4 @@
-type Priority = {
-  priority: "high" | "medium" | "low";
-};
+export type Priority = "high" | "medium" | "low";
 
 export type Todo = {
   id: string;
@@ -8,7 +6,7 @@ export type Todo = {
   description?: string;
   isCompleted: boolean;
   isPinned: boolean;
-  priority: Priority;
+  priority: Priority | null;
   createdAt: string;
   updatedAt: string | null;
 };
@@ -18,7 +16,11 @@ export type TodoState = {
   searchQuery: string;
 
   setSearchQuery: (query: string) => void;
-  addTodo: (title: string, description: string) => void;
+  addTodo: (
+    title: string,
+    description: string,
+    priority: Priority | null,
+  ) => void;
   updateTodo: (id: string, newTitle: string, newDescription: string) => void;
   toggleTodo: (id: string) => void;
   togglePinTodo: (id: string) => void;

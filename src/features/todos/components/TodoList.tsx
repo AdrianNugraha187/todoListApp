@@ -16,6 +16,12 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
   const onDelete = useTodoStore((state) => state.deleteTodo);
   const togglePinTodo = useTodoStore((state) => state.togglePinTodo);
 
+  const priorityWeight: Record<string, number> = {
+    high: 3,
+    medium: 2,
+    low: 1,
+  };
+
   const displayedTodos = useMemo(() => {
     return todos
       .filter(
@@ -25,7 +31,16 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
             ?.toLowerCase()
             .includes(searchQuery.toLowerCase()),
       )
-      .sort((a, b) => Number(b.isPinned) - Number(a.isPinned));
+      .sort((a, b) => {
+        if (a.isPinned !== b.isPinned) {
+          return Number(b.isPinned) - Number(a.isPinned);
+        }
+
+        const weightA = a.priority ? priorityWeight[a.priority] : 0;
+        const weightB = b.priority ? priorityWeight[b.priority] : 0;
+
+        return weightB - weightA;
+      });
   }, [searchQuery, todos]);
 
   return (

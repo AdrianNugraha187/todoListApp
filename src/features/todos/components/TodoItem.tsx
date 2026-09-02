@@ -44,7 +44,7 @@ export default function TodoItem({
                 : "text-slate-800 dark:text-white"
             }`}
           >
-            {todo.title}
+            {todo.title} - {todo.priority}
           </h3>
 
           {todo.description && (

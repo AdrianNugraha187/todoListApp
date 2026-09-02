@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTodoStore } from "../store/useTodoStore";
-import type { Todo } from "../types";
+import type { Priority, Todo } from "../types";
 import { Plus, Save } from "lucide-react";
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState<Priority | "">(""); // Default kosong
 
   const addTodo = useTodoStore((state) => state.addTodo);
   const updateTodo = useTodoStore((state) => state.updateTodo);
@@ -34,7 +35,7 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
       updateTodo(editingTodo.id, title, description);
       setEditingTodoId(null);
     } else {
-      addTodo(title, description);
+      addTodo(title, description, priority === "" ? null : priority);
     }
 
     setTitle("");
@@ -92,6 +93,21 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
             placeholder="Masukkan deskripsi tugas..."
             className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:bg-white dark:focus:bg-slate-900 transition"
           />
+        </div>
+
+        <div>
+          <label htmlFor="">Pilih Prioritas:</label>
+          <select
+            value={priority}
+            onChange={(event) =>
+              setPriority(event.target.value as Priority | "")
+            }
+          >
+            <option value="">Tanpa Prioritas</option>
+            <option value="high">Tinggi</option>
+            <option value="medium">Sedang</option>
+            <option value="low">Rendah</option>
+          </select>
         </div>
 
         {/* Submit & Action Buttons */}
