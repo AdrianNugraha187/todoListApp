@@ -1,12 +1,14 @@
 import React from "react";
 import type { Todo } from "../types";
-import { CheckCircle2, Circle, Edit3, Trash2 } from "lucide-react";
+import { CheckCircle2, Circle, Edit3, Trash2, Pin } from "lucide-react";
+import { formattedDate } from "../../../utils/formattedDate";
 
 interface Props {
   todo: Todo;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   setEditingTodoId: React.Dispatch<React.SetStateAction<string | null>>;
+  togglePinTodo: (id: string) => void;
 }
 
 export default function TodoItem({
@@ -14,6 +16,7 @@ export default function TodoItem({
   onDelete,
   onToggle,
   setEditingTodoId,
+  togglePinTodo,
 }: Props) {
   return (
     <div className="group flex items-start justify-between gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/60 shadow-sm hover:shadow-md dark:shadow-none transition-all duration-200">
@@ -58,7 +61,7 @@ export default function TodoItem({
 
           {todo.createdAt && (
             <span className="inline-block text-[11px] text-slate-400 dark:text-slate-500 pt-1">
-              {todo.createdAt}
+              {formattedDate(todo.createdAt)}
             </span>
           )}
         </div>
@@ -66,6 +69,12 @@ export default function TodoItem({
 
       {/* Kolom Kanan: Tombol Aksi (Edit & Delete) */}
       <div className="flex items-center gap-1 shrink-0">
+        <button
+          onClick={() => togglePinTodo(todo.id)}
+          className="p-2 rounded-lg text-slate-400 dark:text-slate-500  hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700/60 transition-colors cursor-pointer"
+        >
+          <Pin className="w-4 h-4" />
+        </button>
         <button
           onClick={() => setEditingTodoId(todo.id)}
           className="p-2 rounded-lg text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700/60 transition-colors cursor-pointer"

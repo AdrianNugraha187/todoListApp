@@ -22,6 +22,7 @@ export const useTodoStore = create<TodoState>()(
               title,
               description,
               isCompleted: false,
+              isPinned: false,
               createdAt: new Date().toISOString(),
               updatedAt: null,
             },
@@ -46,6 +47,15 @@ export const useTodoStore = create<TodoState>()(
         set((state) => ({
           todos: state.todos.map((todo) =>
             todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
+          ),
+        })),
+
+      togglePinTodo: (id) =>
+        set((state) => ({
+          todos: state.todos.map((todoItem) =>
+            todoItem.id === id
+              ? { ...todoItem, isPinned: !todoItem.isPinned }
+              : todoItem,
           ),
         })),
 

@@ -14,13 +14,18 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
   const setSearchQuery = useTodoStore((state) => state.setSearchQuery);
   const onToggle = useTodoStore((state) => state.toggleTodo);
   const onDelete = useTodoStore((state) => state.deleteTodo);
+  const togglePinTodo = useTodoStore((state) => state.togglePinTodo);
 
-  const filteredTodos = useMemo(() => {
-    return todos.filter(
-      (todoItem) =>
-        todoItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        todoItem.description?.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
+  const displayedTodos = useMemo(() => {
+    return todos
+      .filter(
+        (todoItem) =>
+          todoItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          todoItem.description
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase()),
+      )
+      .sort((a, b) => Number(b.isPinned) - Number(a.isPinned));
   }, [searchQuery, todos]);
 
   return (
@@ -33,7 +38,7 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      {filteredTodos.length === 0 ? (
+      {displayedTodos.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-8 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-center transition-colors duration-200">
           <div className="p-3 bg-indigo-50 dark:bg-slate-700/50 rounded-full text-indigo-500 dark:text-indigo-400 mb-3">
             <ClipboardList className="w-8 h-8" />
@@ -49,13 +54,14 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
       ) : (
         /* Daftar Items */
         <div className="flex flex-col gap-3">
-          {filteredTodos.map((todoItem) => (
+          {displayedTodos.map((todoItem) => (
             <TodoItem
               key={todoItem.id}
               todo={todoItem}
               onToggle={onToggle}
               onDelete={onDelete}
               setEditingTodoId={setEditingTodoId}
+              togglePinTodo={togglePinTodo}
             />
           ))}
         </div>
