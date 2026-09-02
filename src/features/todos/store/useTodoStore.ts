@@ -6,6 +6,12 @@ export const useTodoStore = create<TodoState>()(
   persist(
     (set) => ({
       todos: [] as Todo[],
+      searchQuery: "",
+
+      setSearchQuery: (query) =>
+        set({
+          searchQuery: query,
+        }),
 
       addTodo: (title, description) =>
         set((state) => ({

@@ -45,7 +45,7 @@ export default function Footer() {
           {/* KOLOM KANAN: GitHub Button & License Info */}
           <div className="flex flex-col items-center md:items-end space-y-2">
             <a
-              href="https://github.com/AdrianNugraha187/weatherApp-open-meteo-react-router"
+              href="https://github.com/AdrianNugraha187/todoListApp"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-5 py-2 rounded-2xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white border border-transparent dark:border-slate-700 transition-all duration-300 shadow-sm hover:shadow-md"

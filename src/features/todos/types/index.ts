@@ -9,7 +9,9 @@ export type Todo = {
 
 export type TodoState = {
   todos: Todo[];
+  searchQuery: string;
 
+  setSearchQuery: (query: string) => void;
   addTodo: (title: string, description: string) => void;
   updateTodo: (id: string, newTitle: string, newDescription: string) => void;
   toggleTodo: (id: string) => void;

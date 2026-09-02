@@ -49,9 +49,6 @@ export default function HeroSection() {
                   <h3 className="font-bold text-slate-800 dark:text-white text-lg">
                     Target Hari Ini
                   </h3>
-                  {/* <p className="text-xs text-slate-400 dark:text-slate-500">
-                    Rabu, 24 Oktober
-                  </p> */}
                 </div>
                 <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full">
                   75% Selesai

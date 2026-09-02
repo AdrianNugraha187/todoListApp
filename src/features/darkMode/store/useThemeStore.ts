@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ThemeState } from "../types";
+import type { ThemeState } from "../../todos/types";
 import { persist } from "zustand/middleware";
 
 export const useThemeStore = create<ThemeState>()(
