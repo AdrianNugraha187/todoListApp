@@ -15,3 +15,10 @@ export type TodoState = {
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
 };
+
+export type Theme = "light" | "dark";
+
+export interface ThemeState {
+  theme: Theme;
+  toggleTheme: () => void;
+}
