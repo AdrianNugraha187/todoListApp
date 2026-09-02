@@ -12,6 +12,7 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<Priority | "">(""); // Default kosong
+  const [dueDate, setDueDate] = useState<string>(""); // State untuk Due Date
 
   const addTodo = useTodoStore((state) => state.addTodo);
   const updateTodo = useTodoStore((state) => state.updateTodo);
@@ -35,17 +36,26 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
       updateTodo(editingTodo.id, title, description);
       setEditingTodoId(null);
     } else {
-      addTodo(title, description, priority === "" ? null : priority);
+      addTodo(
+        title,
+        description,
+        priority === "" ? null : priority,
+        dueDate ? new Date(dueDate).toISOString() : null,
+      );
     }
 
     setTitle("");
     setDescription("");
+    setPriority("");
+    setDueDate("");
   }
 
   const handleCancel = () => {
     setEditingTodoId(null);
     setTitle("");
     setDescription("");
+    setPriority("");
+    setDueDate("");
   };
 
   return (
@@ -90,6 +100,19 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
             type="text"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+            placeholder="Masukkan deskripsi tugas..."
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:bg-white dark:focus:bg-slate-900 transition"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+            tanggal jatuh tempo
+          </label>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)}
             placeholder="Masukkan deskripsi tugas..."
             className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:bg-white dark:focus:bg-slate-900 transition"
           />

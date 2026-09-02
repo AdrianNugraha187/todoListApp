@@ -13,7 +13,7 @@ export const useTodoStore = create<TodoState>()(
           searchQuery: query,
         }),
 
-      addTodo: (title, description, priority = null) =>
+      addTodo: (title, description, priority = null, dueDate = null) =>
         set((state) => ({
           todos: [
             ...state.todos,
@@ -24,6 +24,7 @@ export const useTodoStore = create<TodoState>()(
               isCompleted: false,
               isPinned: false,
               priority: priority,
+              dueDate: dueDate,
               createdAt: new Date().toISOString(),
               updatedAt: null,
             },

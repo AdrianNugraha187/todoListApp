@@ -7,6 +7,7 @@ export type Todo = {
   isCompleted: boolean;
   isPinned: boolean;
   priority: Priority | null;
+  dueDate: string | null;
   createdAt: string;
   updatedAt: string | null;
 };
@@ -19,9 +20,16 @@ export type TodoState = {
   addTodo: (
     title: string,
     description: string,
-    priority: Priority | null,
+    priority?: Priority | null,
+    dueDate?: string | null,
   ) => void;
-  updateTodo: (id: string, newTitle: string, newDescription: string) => void;
+  updateTodo: (
+    id: string,
+    newTitle: string,
+    newDescription: string,
+    priority?: Priority | null,
+    dueDate?: string | null,
+  ) => void;
   toggleTodo: (id: string) => void;
   togglePinTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
