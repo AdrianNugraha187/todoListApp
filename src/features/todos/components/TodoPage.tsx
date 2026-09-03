@@ -41,6 +41,7 @@ export default function TodoPage() {
         {/* Form Section */}
         <div className="w-full">
           <TodoForm
+            key={editingTodo?.id || "new"}
             editingTodo={editingTodo}
             setEditingTodoId={setEditingTodoId}
           />

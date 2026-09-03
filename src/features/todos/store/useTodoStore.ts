@@ -31,7 +31,13 @@ export const useTodoStore = create<TodoState>()(
           ],
         })),
 
-      updateTodo: (id, newTitle, newDescription) =>
+      updateTodo: (
+        id,
+        newTitle,
+        newDescription,
+        priority = null,
+        dueDate = null,
+      ) =>
         set((state) => ({
           todos: state.todos.map((todo) =>
             todo.id === id
@@ -39,6 +45,8 @@ export const useTodoStore = create<TodoState>()(
                   ...todo,
                   title: newTitle,
                   description: newDescription,
+                  priority: priority,
+                  dueDate: dueDate,
                   updatedAt: new Date().toISOString(),
                 }
               : todo,

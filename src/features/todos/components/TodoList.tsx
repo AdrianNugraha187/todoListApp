@@ -9,6 +9,12 @@ interface Props {
   setEditingTodoId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
+const priorityWeight: Record<string, number> = {
+  high: 3,
+  medium: 2,
+  low: 1,
+};
+
 export default function TodoList({ todos, setEditingTodoId }: Props) {
   const searchQuery = useTodoStore((state) => state.searchQuery);
   const setSearchQuery = useTodoStore((state) => state.setSearchQuery);
@@ -16,21 +22,16 @@ export default function TodoList({ todos, setEditingTodoId }: Props) {
   const onDelete = useTodoStore((state) => state.deleteTodo);
   const togglePinTodo = useTodoStore((state) => state.togglePinTodo);
 
-  const priorityWeight: Record<string, number> = {
-    high: 3,
-    medium: 2,
-    low: 1,
-  };
-
   const displayedTodos = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
     return todos
-      .filter(
-        (todoItem) =>
-          todoItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          todoItem.description
-            ?.toLowerCase()
-            .includes(searchQuery.toLowerCase()),
-      )
+      .filter((todo) => {
+        if (!query) return true;
+        const matchTitle = todo.title.toLowerCase().includes(query);
+        const matchDescription = todo.description.toLowerCase().includes(query);
+        return matchTitle || matchDescription;
+      })
       .sort((a, b) => {
         if (a.isPinned !== b.isPinned) {
           return Number(b.isPinned) - Number(a.isPinned);

@@ -1,6 +1,6 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { ThemeState } from "../../todos/types";
-import { persist } from "zustand/middleware";
 
 export const useThemeStore = create<ThemeState>()(
   persist(
@@ -13,6 +13,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "theme-storage",
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

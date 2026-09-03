@@ -3,7 +3,7 @@ export type Priority = "high" | "medium" | "low";
 export type Todo = {
   id: string;
   title: string;
-  description?: string;
+  description: string;
   isCompleted: boolean;
   isPinned: boolean;
   priority: Priority | null;
@@ -20,15 +20,15 @@ export type TodoState = {
   addTodo: (
     title: string,
     description: string,
-    priority?: Priority | null,
-    dueDate?: string | null,
+    priority: Priority | null,
+    dueDate: string | null,
   ) => void;
   updateTodo: (
     id: string,
     newTitle: string,
     newDescription: string,
-    priority?: Priority | null,
-    dueDate?: string | null,
+    priority: Priority | null,
+    dueDate: string | null,
   ) => void;
   toggleTodo: (id: string) => void;
   togglePinTodo: (id: string) => void;
@@ -37,7 +37,7 @@ export type TodoState = {
 
 export type Theme = "light" | "dark";
 
-export interface ThemeState {
+export type ThemeState = {
   theme: Theme;
   toggleTheme: () => void;
-}
+};

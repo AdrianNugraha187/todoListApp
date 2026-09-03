@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTodoStore } from "../store/useTodoStore";
 import type { Priority, Todo } from "../types";
 import { Plus, Save } from "lucide-react";
@@ -9,23 +9,17 @@ interface Props {
 }
 
 export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<Priority | "">(""); // Default kosong
-  const [dueDate, setDueDate] = useState<string>(""); // State untuk Due Date
+  const [title, setTitle] = useState(editingTodo?.title || "");
+  const [description, setDescription] = useState(
+    editingTodo?.description || "",
+  );
+  const [priority, setPriority] = useState<Priority | "">(
+    editingTodo?.priority || "",
+  ); // Default kosong
+  const [dueDate, setDueDate] = useState<string>(editingTodo?.dueDate || ""); // State untuk Due Date
 
   const addTodo = useTodoStore((state) => state.addTodo);
   const updateTodo = useTodoStore((state) => state.updateTodo);
-
-  useEffect(() => {
-    if (editingTodo) {
-      setTitle(editingTodo.title);
-      setDescription(editingTodo.description || "");
-    } else {
-      setTitle("");
-      setDescription("");
-    }
-  }, [editingTodo]);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -33,7 +27,13 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
     if (!title || !description) return;
 
     if (editingTodo) {
-      updateTodo(editingTodo.id, title, description);
+      updateTodo(
+        editingTodo.id,
+        title,
+        description,
+        priority === "" ? null : priority,
+        dueDate ? new Date(dueDate).toISOString() : null,
+      );
       setEditingTodoId(null);
     } else {
       addTodo(
@@ -119,12 +119,15 @@ export default function TodoForm({ editingTodo, setEditingTodoId }: Props) {
         </div>
 
         <div>
-          <label htmlFor="">Pilih Prioritas:</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+            Pilih Prioritas:
+          </label>
           <select
             value={priority}
             onChange={(event) =>
               setPriority(event.target.value as Priority | "")
             }
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:bg-white dark:focus:bg-slate-900 transition"
           >
             <option value="">Tanpa Prioritas</option>
             <option value="high">Tinggi</option>
